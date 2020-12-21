@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int main()
+int boj_2588()
 {
     long inputA = 0, inputB = 0;
     long num[4];
@@ -20,6 +20,8 @@ int main()
     for (int i = 0;i < 4;i++) {
         cout << inputA * num[i] << endl;
     }
+
+    return 0;
 }
 
 
