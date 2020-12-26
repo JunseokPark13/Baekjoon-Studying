@@ -2,7 +2,7 @@
 
 using namespace std;
 
-int main() {
+int boj_10250() {
 
 	int tcase, H, W, N;
 	int Y = 0, X = 0;
@@ -18,10 +18,7 @@ int main() {
 			Y = N % H;
 			X = N / H + 1;
 		}
-		cout << Y * 100 + X << endl;
-		
-		
-		//cout << 100 * ((N - 1) % H + 1) + ((N - 1) / H) + 1 << endl;
-		
+		cout << Y * 100 + X << endl;		
 	}
+	return 0;
 }
