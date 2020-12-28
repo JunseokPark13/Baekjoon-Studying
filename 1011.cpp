@@ -62,8 +62,6 @@ int boj_1011_2() {
 
 		double num;
 
-		double n = 1, m = 2;
-
 		num = (int)sqrt(d);
 
 		if (d == num * num)
@@ -73,7 +71,6 @@ int boj_1011_2() {
 		else if (num * num + num < d && d < (num + 1) * (num + 1))
 			cout << 2 * num + 1 << endl;
 	}
-
 
 	return 0;
 }
