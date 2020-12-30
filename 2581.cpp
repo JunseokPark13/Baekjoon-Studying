@@ -1,7 +1,7 @@
 #include <stdio.h>
 using namespace std;
 
-int main() {
+int boj_2581() {
 	int m, n;
 	scanf_s("%d %d", &m, &n);
 
