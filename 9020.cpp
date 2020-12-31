@@ -29,5 +29,6 @@ int boj_9020() {
 
 		printf("%d %d\n", a, n-a);
 	}
+
 	return 0;
 }
