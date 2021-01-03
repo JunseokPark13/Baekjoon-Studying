@@ -13,19 +13,14 @@ string add(string& a, string& b) {
 		int partA = 0;
 		if (aSize > 0) {
 			partA = a[--aSize] - '0';
-			//cout << partA << " ";
-
 		}
 			
 		int partB = 0;
 		if (bSize > 0) {
 			partB = b[--bSize] - '0';
-			//cout << partB << " ";
 		}
 			
-		//cout << rest << " ";
 		int partR = partA + partB + rest;
-		//cout << partR << "\n";
 		rest = partR / 10;
 		partR %= 10;
 
@@ -42,7 +37,7 @@ string add(string& a, string& b) {
 	return answer;
 }
 
-int main() {
+int boj_10757() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
@@ -52,4 +47,6 @@ int main() {
 	cin >> a >> b;
 
 	cout << add(a, b) << "\n";
+
+	return 0;
 }
