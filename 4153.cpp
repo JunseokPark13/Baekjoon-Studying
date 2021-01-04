@@ -12,7 +12,7 @@ bool tri_check(int a, int b, int c) {
 	return check;
 }
 
-int main() {
+int boj_4153() {
 
 	bool check = false;
 
