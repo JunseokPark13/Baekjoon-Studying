@@ -26,7 +26,7 @@ int position(int x1, int y1, int r1, int x2, int y2, int r2) {
 	return count;
 }
 
-int main() {
+int boj_1002() {
 	int tcase; cin >> tcase;
 
 	for (int i = 0; i < tcase; i++) {
