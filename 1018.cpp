@@ -50,7 +50,7 @@ int black(int m, int n) {
 }
 
 
-int main() {
+int boj_1018() {
 
 	int N, M; cin >> N >> M;
 
@@ -67,10 +67,6 @@ int main() {
 	}
 
 	cout << min << "\n";
-
-
-
-
 
 	return 0;
 }
