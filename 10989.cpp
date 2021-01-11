@@ -4,7 +4,7 @@ using namespace std;
 
 int ary[100001];
 
-int main() {
+int boj_10989() {
 
 	int n; cin >> n;
 
