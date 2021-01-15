@@ -46,3 +46,5 @@ function solution(a, b) {
 
 //     return weekDay[days%7];
 // }
+
+//https://programmers.co.kr/learn/courses/30/lessons/12901
