@@ -13,7 +13,6 @@ function solution(n) {
     for(var i in ary){
         answer+=ary[i];
     }
-
     return parseInt(answer);
 }
 
