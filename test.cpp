@@ -1,29 +1,22 @@
 #include <stdio.h>
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 int test() {
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
-	while (1) {
-		int n; cin >> n;
-		int count = 0;
-		if (n == 0) break;
+	int a[3] = { 1,2,3 };
+	int b[3] = { 1,2,3 };
+	int c[3];
 
-		bool* arr = new bool[2*n + 1];
+	copy(a, a + 3, c);
 
-		for (int i = 2; i * i <= 2 * n;i++) {
-			for (int j = i * i; j <= 2 * n; j += i) {
-				arr[j] = 1;
-			}
-		}
+	int length = sizeof(a) / sizeof(a[0]);
 
-		for (int i = n+1; i <= 2*n; i++) {
-			if (i == 1) continue;
-			if (arr[i] != 1) count++;	
-		}
-		cout << count << "\n";
+	for (int i = 0; i < length; i++) {
+		cout << a[i] << " " <<c[i] << "\n";
 	}
+
+	if (a == c) cout << "true" << "\n";
+	else cout << "false" << "\n";
 	return 0;
 }
