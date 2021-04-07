@@ -1,46 +1,68 @@
-function solution(files) {
-  var answer = [];
+function solution(m, musicinfos) {
+  var answer = '';
+  var max_t = -1;
 
-  const sort_file = (a, b) => {
-    let a_head, b_head;
-    let a_mid, b_mid;
-    let a_num, b_num;
+  var dict = {"C#" : "1", "D#" : "2", "F#" : "3", "G#" : "4", "A#" : "5"};
 
-    a_mid = a.indexOf((a.match(/[0-9]/)));
-    b_mid = b.indexOf((b.match(/[0-9]/)));
+  const convert_str = (str) =>{
+    let conv = "";
+    for(let i = 0; i < str.length; i++)
+    {
+     if (str[i + 1] == "#")
+        conv += dict[str[i++] + "#"];
+     else
+        conv += str[i];
+    }
+    return conv;
+  }
 
-    a_head = a.substring(0, a_mid);
-    b_head = b.substring(0, b_mid);
-    a_num = parseInt(a.substring(a_mid));
-    b_num = parseInt(b.substring(b_mid));
+  const cal_time = (str) =>{
+    let time = str.split(":");
+    return parseInt(time[0]) * 60 + parseInt(time[1]); 
+  }
 
-    if ((a_head.toUpperCase()).localeCompare(b_head.toUpperCase()) < 0)
-      return -1;
-    else if ((a_head.toUpperCase()).localeCompare(b_head.toUpperCase()) > 0)
-      return 1;
-    else
-    {    
-      if (a_num < b_num)
-        return -1;
-      else if (a_num > b_num)
-        return 1;
-      else
-        return 0;
+  m = convert_str(m);
+
+  for(let i in musicinfos)
+  {
+    let info = musicinfos[i].split(",");
+    let sub_t = cal_time(info[1]) - cal_time(info[0]);
+
+    info[3] = convert_str(info[3]);
+
+    let melody = info[3];
+    
+    if (melody.length < sub_t)
+      for(let i = 0; i < sub_t - info[3].length; i++)
+        melody += info[3][i % info[3].length];
+    else if (melody.length > sub_t)
+      melody = melody.substr(0, sub_t)
+
+    if (melody.indexOf(m) >= 0 && sub_t > max_t)
+    {
+        max_t = sub_t;
+        answer = info[2];
     }
   }
 
-  answer = files.sort(sort_file);
+  if (max_t == -1)
+    answer = "(None)";
+
   return answer;
 }
 
-solution(["img12.png", "img10.png", "img02.png", "img1.png", "IMG01.GIF", "img2.JPG"])
-console.log("answer : ", ["img1.png", "IMG01.GIF", "img02.png", "img2.JPG", "img10.png", "img12.png"])
+solution("ABCDEFG", ["12:00,12:14,HELLO,CDEFGAB", "13:00,13:05,WORLD,ABCDEF"])
+console.log("answer : ", "HELLO")
 console.log("\n");
 
-solution(["F-5 Freedom Fighter", "B-50 Superfortress", "A-10 Thunderbolt II", "F-14 Tomcat"])
-console.log("answer : ", ["A-10 Thunderbolt II", "B-50 Superfortress", "F-5 Freedom Fighter", "F-14 Tomcat"])
+solution("CC#BCC#BCC#BCC#B", 	["03:00,03:30,FOO,CC#B", "04:00,04:08,BAR,CC#BCC#BCC#B"])
+console.log("answer : ", "FOO")
 console.log("\n");
 
-solution(["img000121.png", "img000101.png", "img000021.png", "img000011.png", "IMG000011.GIF", "img000021.JPG"])
-console.log("answer : ", ["img000011.png", "IMG000011.GIF", "img000021.png", "img000021.JPG", "img000101.png", "img000121.png"])
+solution("ABC", ["12:00,12:14,HELLO,C#DEFGAB", "13:00,13:05,WORLD,ABCDEF"])
+console.log("answer : ", "WORLD")
+console.log("\n");
+
+solution("ABC", ["00:00,00:05,HI,ABC#ABC"])
+console.log("answer : ", "(None)")
 console.log("\n");
