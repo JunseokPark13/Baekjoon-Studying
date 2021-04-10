@@ -1,68 +1,88 @@
-function solution(m, musicinfos) {
-  var answer = '';
-  var max_t = -1;
+function solution(relation) {
+  var answer = 0;
+  var tuple_len = relation.length;
+  var attr_len = relation[0].length;
+  var ary = [];
 
-  var dict = {"C#" : "1", "D#" : "2", "F#" : "3", "G#" : "4", "A#" : "5"};
+  var k = new Array();
+  for(let i = 0; i < attr_len; i++)
+    k.push(i.toString());
 
-  const convert_str = (str) =>{
-    let conv = "";
-    for(let i = 0; i < str.length; i++)
-    {
-     if (str[i + 1] == "#")
-        conv += dict[str[i++] + "#"];
-     else
-        conv += str[i];
-    }
-    return conv;
+  const match_attr = (arr, str) =>{
+    str += arr[0];
+    ary.push(str);
+    if (arr.length == 1)
+      return ;
+    for(let i = 1; i < arr.length; i++)
+      match_attr(arr.slice(i), str);
   }
 
-  const cal_time = (str) =>{
-    let time = str.split(":");
-    return parseInt(time[0]) * 60 + parseInt(time[1]); 
-  }
+  for(let i = 0; i < k.length; i++)
+    match_attr(k.slice(i), "");
 
-  m = convert_str(m);
-
-  for(let i in musicinfos)
+  ary.sort((a,b)=>{
+    if (a.length < b.length)
+      return -1;
+    else if (a.length > b.length)
+      return 1;
+    else
+      return 0;
+  })
+  
+  for(let t= 0; t < ary.length; t++)
   {
-    let info = musicinfos[i].split(",");
-    let sub_t = cal_time(info[1]) - cal_time(info[0]);
-
-    info[3] = convert_str(info[3]);
-
-    let melody = info[3];
-    
-    if (melody.length < sub_t)
-      for(let i = 0; i < sub_t - info[3].length; i++)
-        melody += info[3][i % info[3].length];
-    else if (melody.length > sub_t)
-      melody = melody.substr(0, sub_t)
-
-    if (melody.indexOf(m) >= 0 && sub_t > max_t)
+    var infos = new Set();
+    let comb = ary[t];
+    for(let i = 0; i < tuple_len; i++)
     {
-        max_t = sub_t;
-        answer = info[2];
+      let str = "";
+      relation[i].forEach((x, j) => {
+        if (comb.indexOf(j.toString()) >= 0)
+          str += x + "."
+      })
+      infos.add(str);
+    }
+    if (infos.size == tuple_len)
+    {
+      answer++;
+      ary = ary.filter((x) => {
+        let cnt = 0;
+        for(let n = 0; n < comb.length; n++)
+          if(x.indexOf(comb[n]) >= 0)
+            cnt++;
+        if (cnt == comb.length)
+          return false;
+        else
+          return true;
+      })
+      t = -1;
     }
   }
-
-  if (max_t == -1)
-    answer = "(None)";
-
   return answer;
 }
 
-solution("ABCDEFG", ["12:00,12:14,HELLO,CDEFGAB", "13:00,13:05,WORLD,ABCDEF"])
-console.log("answer : ", "HELLO")
+// https://programmers.co.kr/learn/courses/30/lessons/42890#
+
+var ary = [["100","ryan","music","2"],
+["200","apeach","math","2"],
+["300","tube","computer","3"],
+["400","con","computer","4"],
+["500","muzi","music","3"],
+["600","apeach","music","2"]];
+
+solution(ary)
+console.log("answer : ", 2)
 console.log("\n");
 
-solution("CC#BCC#BCC#BCC#B", 	["03:00,03:30,FOO,CC#B", "04:00,04:08,BAR,CC#BCC#BCC#B"])
-console.log("answer : ", "FOO")
+solution([["a", "aa"], ["aa", "a"], ["a", "a"]])
+console.log("answer : ", 1)
 console.log("\n");
 
-solution("ABC", ["12:00,12:14,HELLO,C#DEFGAB", "13:00,13:05,WORLD,ABCDEF"])
-console.log("answer : ", "WORLD")
+solution([["a", "b", "c"], ["1", "b", "c"], ["a", "b", "4"], ["a", "5", "c"]])
+console.log("answer : ", 1)
 console.log("\n");
 
-solution("ABC", ["00:00,00:05,HI,ABC#ABC"])
-console.log("answer : ", "(None)")
+solution([["a", "4", "1"], ["2", "5", "1"], ["a", "4", "2"]])
+console.log("answer : ", 2)
 console.log("\n");
+
