@@ -1,76 +1,94 @@
-function solution(files) {
-  var answer = [];
+function solution(cacheSize, cities) {
+  var answer = 0;
 
-  const sort_file = (a, b) => {
-    let len = a.length > b.length ? a.length : b.length;
+  if (cacheSize == 0)
+    return (cities.length * 5);
 
-    let a_i = -1;
-    let b_i = -1;
+  var cache = new Array(cacheSize);
+  var recentUse = new Array(cacheSize);
+  recentUse.fill(0);
+  var cacheIndex = 0;
 
-    let anum;
-    let bnum;
-
-    let as = "";
-    let bs = "";
-
-    for(let i = 0; i < len; i++)
+  for (let i = 0; i < cities.length; i++)
+  {
+    if (cache.indexOf(cities[i].toUpperCase()) < 0)
     {
-      if (a_i >= 0 && b_i >= 0)
-        break;
-      if (("0" <= a[i] && a[i] <= "9") && a_i < 0)
-        a_i = i;
-      if (("0" <= b[i] && b[i] <= "9") && b_i < 0)
-        b_i = i;
-      if (a[i].toUpperCase() < b[i].toUpperCase())
-        return -1;
-      else if (a[i].toUpperCase() > b[i].toUpperCase())
-        return 1;
-    }
-    console.log(a_i, b_i);
-  
-    for(let i = a_i; i < a.length; i++)
-    {
-      if (!("0" <= a[i] && a[i] <= "9") || i - a_i == 5)
+      let cnt = 0;
+      while (Math.min.apply(null, recentUse) != recentUse[(cacheIndex % cacheSize)])
       {
-        anum = parseInt(a.substring(a_i, i));
-        as = a.substring(i);
-        break;
+        if (cnt == cacheSize)
+        {
+          console.log("break!");
+          break;
+        }
+        cacheIndex = ++cacheIndex % cacheSize;
+        cnt++;
       }
+      //console.log(cache[(cacheIndex % cacheSize)],  recentUse[(cacheIndex++ % cacheSize)]);
+      cache[(cacheIndex % cacheSize)] = cities[i].toUpperCase();
+      recentUse[(cacheIndex++ % cacheSize)] = 1;
+      answer += 5;
     }
-
-    for(let i = b_i; i < b.length; i++)
-    {
-      if (!("0" <= b[i] && b[i] <= "9") || i - b_i == 5)
-      {
-        bnum = parseInt(b.substring(b_i, i));
-        bs = b.substring(i);
-        break;
-      }
-    }
-
-    console.log(anum, bnum, as, bs);
-    if (anum < bnum)
-      return -1;
-    else if (anum > bnum)
-      return 1;
     else
-      return 0;
+    {
+      recentUse[cache.indexOf(cities[i].toUpperCase())]++;
+      answer += 1;
+    }
+    //console.log(i ,cache, recentUse)
   }
+  //console.log(recentUse);
 
-  console.log("before : ", files);
-  answer = files.sort(sort_file);
-  console.log("after  : ", files);
   return answer;
 }
 
-solution(["img12.png", "img10.png", "img02.png", "img1.png", "IMG01.GIF", "img2.JPG"])
-console.log("answer : ", ["img1.png", "IMG01.GIF", "img02.png", "img2.JPG", "img10.png", "img12.png"])
+
+var cities;
+
+cities = ["Jeju", "Pangyo", "Seoul", "NewYork", "LA", "Jeju", "Pangyo", "Seoul", "NewYork", "LA"];
+
+console.log("after  : ", solution(3, cities));
+console.log("answer : ", 50);
 console.log("\n");
 
-solution(["F-5 Freedom Fighter", "B-50 Superfortress", "A-10 Thunderbolt II", "F-14 Tomcat"])
-console.log("answer : ", ["A-10 Thunderbolt II", "B-50 Superfortress", "F-5 Freedom Fighter", "F-14 Tomcat"])
+cities = 	["Jeju", "Pangyo", "Seoul", "Jeju", "Pangyo", "Seoul", "Jeju", "Pangyo", "Seoul"];
+console.log("after  : ", solution(3, cities));
+console.log("answer : ", 21);
 console.log("\n");
 
-solution(["img000121.png", "img000101.png", "img000021.png", "img000011.png", "IMG000011.GIF", "img000021.JPG"])
-console.log("answer : ", ["img000011.png", "IMG000011.GIF", "img000021.png", "img000021.JPG", "img000101.png", "img000121.png"])
+cities = 	["Jeju", "Pangyo", "Seoul", "NewYork", "LA", "SanFrancisco", "Seoul", "Rome", "Paris", "Jeju", "NewYork", "Rome"];
+console.log("after  : ", solution(2, cities));
+console.log("answer : ", 60);
 console.log("\n");
+
+cities = 	["Jeju", "Pangyo", "Seoul", "NewYork", "LA", "SanFrancisco", "Seoul", "Rome", "Paris", "Jeju", "NewYork", "Rome"];
+console.log("after  : ", solution(5, cities));
+console.log("answer : ", 52);
+console.log("\n");
+
+cities = ["Jeju", "Pangyo", "NewYork", "newyork"];
+console.log("after  : ", solution(2, cities));
+console.log("answer : ", 16);
+console.log("\n");
+
+cities = ["Jeju", "Pangyo", "Seoul", "NewYork", "LA"];
+console.log("after  : ", solution(0, cities));
+console.log("answer : ", 25);
+console.log("\n");
+
+cities = ["SEOUL", "SEOUL", "SEOUL"];
+console.log("after  : ", solution(5, cities));
+console.log("answer : ", 7);
+console.log("\n");
+
+cities = ["A", "B", "C", "A", "C", "D"];
+// 5 5 5 1 1 5
+console.log("after  : ", solution(3, cities));
+console.log("answer : ", 22);
+console.log("\n");
+
+cities = ["A", "B", "A", "B", "A", "B"];
+console.log("after  : ", solution(8, cities));
+console.log("answer : ", 14);
+console.log("\n");
+
+

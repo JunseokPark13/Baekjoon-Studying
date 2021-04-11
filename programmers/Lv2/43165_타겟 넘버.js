@@ -20,3 +20,5 @@ function solution(numbers, target) {
 
     return answer;
 }
+
+// https://programmers.co.kr/learn/courses/30/lessons/43165
