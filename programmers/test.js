@@ -1,80 +1,69 @@
-function solution(cacheSize, cities) {
+function solution(str1, str2) {
   var answer = 0;
+  var comb1 = [];
+  var comb2 = [];
 
-  if (cacheSize == 0)
-    return (cities.length * 5);
+  var intersection = [];
 
-  var cache = [];
-
-  for (let i = 0; i < cities.length; i++)
-  {
-    if (cache.indexOf(cities[i].toUpperCase()) < 0)
-    {
-      if (cache.length == cacheSize)
-        cache.shift();
-      cache.push(cities[i].toUpperCase());
-      answer += 5;
-    }
-    else
-    {
-      let index = cache.indexOf(cities[i].toUpperCase());
-      cache.splice(index, 1);
-      cache.push(cities[i].toUpperCase());
-      answer += 1;
-    }
+  const makeComb = (str, comb) => {
+    let reg = /[a-zA-Z]/;
+    for(let i = 0; i < str.length - 1; i++)
+      if(str[i].match(reg) && str[i + 1].match(reg))
+        comb.push((str[i] + str[i + 1]).toUpperCase());
+    comb.sort();
   }
+
+  makeComb(str1, comb1);
+  makeComb(str2, comb2);
+
+  var min, max;
+
+  if (comb1.length < comb2.length)
+  {
+    min = comb1;
+    max = comb2;
+  }
+  else
+  {
+    min = comb2;
+    max = comb1;
+  }
+
+  for(let i = 0; i < min.length; i++)
+  {
+    if (max.indexOf(min[i]) >= 0)
+      intersection.push(min[i]);
+  }
+
+ // console.log(intersection);
+
+  let union_len = comb1.length + comb2.length - intersection.length;
+
+  if (!intersection.length && !union_len)
+    answer = 65536;
+  else if (!intersection.length || !union_len)
+    answer = 0;
+  else 
+    answer = Math.floor(intersection.length / union_len * 65536);
+
   return answer;
 }
 
-// https://programmers.co.kr/learn/courses/30/lessons/17680
 
-var cities;
 
-cities = ["Jeju", "Pangyo", "Seoul", "NewYork", "LA", "Jeju", "Pangyo", "Seoul", "NewYork", "LA"];
-
-console.log("after  : ", solution(3, cities));
-console.log("answer : ", 50);
+console.log("after  : ", solution("FRANCE", "french"));
+console.log("answer : ", 16384);
 console.log("\n");
 
-cities = 	["Jeju", "Pangyo", "Seoul", "Jeju", "Pangyo", "Seoul", "Jeju", "Pangyo", "Seoul"];
-console.log("after  : ", solution(3, cities));
-console.log("answer : ", 21);
+console.log("after  : ", solution("handshake", "shake hands"));
+console.log("answer : ", 65536);
 console.log("\n");
 
-cities = 	["Jeju", "Pangyo", "Seoul", "NewYork", "LA", "SanFrancisco", "Seoul", "Rome", "Paris", "Jeju", "NewYork", "Rome"];
-console.log("after  : ", solution(2, cities));
-console.log("answer : ", 60);
+console.log("after  : ", solution("aa1+aa2", "AAAA12"));
+console.log("answer : ", 43690);
 console.log("\n");
 
-cities = 	["Jeju", "Pangyo", "Seoul", "NewYork", "LA", "SanFrancisco", "Seoul", "Rome", "Paris", "Jeju", "NewYork", "Rome"];
-console.log("after  : ", solution(5, cities));
-console.log("answer : ", 52);
+console.log("after  : ", solution("E=M*C^2", "e=m*c^2"));
+console.log("answer : ", 65536);
 console.log("\n");
-
-cities = ["Jeju", "Pangyo", "NewYork", "newyork"];
-console.log("after  : ", solution(2, cities));
-console.log("answer : ", 16);
-console.log("\n");
-
-cities = ["Jeju", "Pangyo", "Seoul", "NewYork", "LA"];
-console.log("after  : ", solution(0, cities));
-console.log("answer : ", 25);
-console.log("\n");
-
-cities = ["SEOUL", "SEOUL", "SEOUL"];
-console.log("after  : ", solution(5, cities));
-console.log("answer : ", 7);
-console.log("\n");
-
-cities = ["A", "B", "C", "A", "C", "D"];
-// 5 5 5 1 1 5
-console.log("after  : ", solution(3, cities));
-console.log("answer : ", 22);
-console.log("\n");
-
-cities = ["A", "B", "A", "B", "A", "B"];
-console.log("after  : ", solution(8, cities));
-console.log("answer : ", 14);
-console.log("\n");
-
 
