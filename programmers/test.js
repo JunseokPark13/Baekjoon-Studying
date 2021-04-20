@@ -1,67 +1,100 @@
-function solution(expression) {
-  var answer = [];
+function solution(arr) {
+  var answer = [0, 0];
+  let len = arr.length;
 
-  let op = new Set();
-  expression.match(/[+\-*/]/g).forEach((x) => { op.add(x); });
-  op = [...op];
-
-  const getComb = (arr, len) =>{
-    let res = [];
-    if (len === 1) return arr.map((v) => [v]);
-
-    arr.forEach((x, i, ary) => {
-      let first = x;
-      let rest = ary.filter((k, index) => index !== i);
-      let combarr = getComb(rest, len - 1);
-      let comb = combarr.map((x) => [first, ...x]);
-      res.push(...comb);
-    })
-    return res;
-  }
-
-  const change_cal = (op, left, right) => {
-    if (op == "+")
-      return parseInt(left) + parseInt(right);
-    else  if (op == "-")
-      return parseInt(left) - parseInt(right);
-    else  if (op == "*")
-      return parseInt(left) * parseInt(right);
-  }
-
-  let comb = getComb(op, op.length);
-
-  let numbers = expression.split(/[+*\-]/)
-  let operators = expression.match(/[+*\-]/g);
-
-  for(let i = 0; i < comb.length; i++){
-    let cp_nums = numbers.slice();
-    let cp_ops = operators.slice();
-    for(let j = 0; j < comb[i].length; j++){
-      for(let k = 0; k < cp_ops.length; k++){
-        if (cp_ops[k] == comb[i][j]){
-          cp_nums[k] = change_cal(cp_ops[k], cp_nums[k], cp_nums[k+1]);
-          cp_nums.splice(k+1,1);
-          cp_ops.splice(k,1);
-          k--;
+  const check_numbers = (ary, row, col, size) => {
+    let num = ary[col][row];
+    for(let i = col; i < col + size; i++){
+      for(let j = row; j < row + size; j++){
+        if (num != ary[i][j]){
+          return false;
         }
       }
     }
-   answer.push(Math.abs(cp_nums[0]));
+    if (!num){
+      answer[0]++;
+    } else{
+      answer[1]++;
+    }
+    change_sign(ary, row, col, size);
+    return true;
   }
 
-  answer = Math.max.apply(null, answer);
+  const change_sign = (ary, row, col, size) => {
+    for(let i = col; i < col + size; i++){
+      for(let j = row; j < row + size; j++){
+        ary[i][j] = "-";
+      }
+    }
+  }
+
+  const check_array = (ary, row, col, size) => {
+    if (size != 2){
+      if(!check_numbers(ary, row, col, size / 2)){
+        check_array(ary, row, col, size / 2);
+      } 
+      if(!check_numbers(ary, row, col + size /2, size / 2)){
+        check_array(ary, row, col + size /2, size / 2);
+      } 
+      if(!check_numbers(ary, row + size / 2, col, size / 2)){
+        check_array(ary, row + size / 2, col, size / 2);
+      } 
+      if(!check_numbers(ary, row + size / 2, col + size / 2, size / 2)){
+        check_array(ary, row + size / 2, col + size / 2, size / 2);
+      } 
+    }
+  }
+
+  const count_numbers = (ary) => {
+    for(let i = 0; i < len; i++){
+      for(let j = 0; j < len; j++){
+        if (ary[i][j] == 0){
+          answer[0]++;
+        } else if (ary[i][j] == 1){
+          answer[1]++;
+        }
+      }
+    }
+  }
+
+  if (!check_numbers(arr, 0, 0, len)){
+    check_array(arr, 0, 0, len);
+    count_numbers(arr);
+  }
+
   return answer;
 }
 
-// https://programmers.co.kr/learn/courses/30/lessons/67257
+// https://programmers.co.kr/learn/courses/30/lessons/68936
 
-console.log("after  : ", solution("100-200*300-500+20"));
-console.log("answer : ", 60420);
-console.log("\n");
+let arr = [[1,1,0,0],[1,0,0,0],[1,0,0,1],[1,1,1,1]];
+console.log("after  : ", solution(arr));
+console.log("answer : ", [4, 9]);
+console.log("\n"); 
 
-console.log("after  : ", solution("50*6-3*2"));
-console.log("answer : ", 300);
-console.log("\n");
+// arr = [[1,1,1,1,1,1,1,1],[0,1,1,1,1,1,1,1],[0,0,0,0,1,1,1,1],[0,1,0,0,1,1,1,1],[0,0,0,0,0,0,1,1],[0,0,0,0,0,0,0,1],[0,0,0,0,1,0,0,1],[0,0,0,0,1,1,1,1]];
+// console.log("after  : ", solution(arr));
+// console.log("answer : ", [10, 15]);
+// console.log("\n"); 
+
+// arr = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
+// console.log("after  : ", solution(arr));
+// console.log("answer : ", [1, 0]);
+// console.log("\n"); 
+
+// arr = [[1,0,1,0,1,0,1,0],
+// [0,1,0,1,0,1,0,1],
+// [1,0,1,0,1,0,1,0],
+// [0,1,0,1,0,1,0,1],
+// [1,0,1,0,1,0,1,0],
+// [0,1,0,1,0,1,0,1],
+// [1,0,1,0,1,0,1,0],
+// [0,1,0,1,0,1,0,1]
+// ];
+// console.log("after  : ", solution(arr));
+// console.log("answer : ", [10, 15]);
+// console.log("\n"); 
+
 
 
 
