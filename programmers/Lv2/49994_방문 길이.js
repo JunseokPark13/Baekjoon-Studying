@@ -3,30 +3,31 @@ function solution(dirs) {
   let position = [0, 0];
   let road = new Set();
 
-
   const move = (e, pos) => {
-    if (e == "U" && pos[0] != 5){
-        pos[0]++;
-    } else if (e == "D" && pos[0] != -5){
+    if (e == "U" && pos[0] != 5) {
+      pos[0]++;
+    } else if (e == "D" && pos[0] != -5) {
       pos[0]--;
-    } else if (e == "R" && pos[1] != 5){
+    } else if (e == "R" && pos[1] != 5) {
       pos[1]++;
-    } else if (e == "L" && pos[1] != -5){
+    } else if (e == "L" && pos[1] != -5) {
       pos[1]--;
     }
-  }
+  };
 
-  for(const e of dirs){
-    let start = [...position]
+  for (const e of dirs) {
+    let start = [...position];
     let end;
     move(e, position);
     end = [...position];
 
     let str = start + " to " + end;
     let str2 = end + " to " + start;
-    if (str != str2){
-      road.add(str);
-      road.add(str2)
+    if (!road.has(str) && !road.has(str2)) {
+      if (str != str2) {
+        road.add(str);
+        road.add(str2);
+      }
     }
   }
 
@@ -36,17 +37,10 @@ function solution(dirs) {
 
 // https://programmers.co.kr/learn/courses/30/lessons/49994
 
-
 console.log("after  : ", solution("ULURRDLLU"));
 console.log("answer : ", 7);
-console.log("\n"); 
+console.log("\n");
 
 console.log("after  : ", solution("LULLLLLLU"));
 console.log("answer : ", 7);
-console.log("\n"); 
-
-
-
-
-
-
+console.log("\n");
