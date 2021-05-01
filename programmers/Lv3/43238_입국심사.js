@@ -1,7 +1,7 @@
 function solution(n, times) {
   var answer = 0;
 
-  times = times.sort((a,b) => a - b);
+  times = times.sort((a, b) => a - b);
 
   let max_t = times[times.length - 1] * n;
   let min_t = 0;
@@ -10,21 +10,21 @@ function solution(n, times) {
 
   let cur_max = -1;
 
-  while (min_t <= max_t){
+  while (min_t <= max_t) {
     mid = Math.floor((max_t + min_t) / 2);
-    for(let i = 0; i < times.length; i++){
+    for (let i = 0; i < times.length; i++) {
       sum_work += Math.floor(mid / times[i]);
     }
 
-    if (sum_work >= n){
-      if (cur_max == -1){
+    if (sum_work >= n) {
+      if (cur_max == -1) {
         cur_max = sum_work;
         answer = mid;
-      } else{
+      } else {
         answer = Math.min(answer, mid);
       }
       max_t = mid - 1;
-    }else if (sum_work < n){
+    } else if (sum_work < n) {
       min_t = mid + 1;
     }
     sum_work = 0;
