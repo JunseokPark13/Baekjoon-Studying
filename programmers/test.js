@@ -1,66 +1,39 @@
-function solution(s) {
-  var answer = 0;
+function solution(sticker) {
+  let len = sticker.length;
 
-  if (s.length == 1) {
-    return 1;
-  }
-  if (s.length == 2 && s[0] == s[1]) {
-    return 2;
-  } else if (s.length == 2 && s[0] != s[1]) {
-    return 1;
+  if (len <= 3){
+    return Math.max(...sticker);
   }
 
-  const checkside = (cs, i) => {
-    let k = i;
-    let flag = 1;
-    let start = i - 1;
+  let get_f = [];
+  let get_s = [];
 
-    let left = s.substring()
-    
-    if (flag) {
-      if (cs) {
-        answer = i * 2 - 1;
-      } else {
-        answer = i * 2;
-      }
-    }
-  };
+  get_f[0] = get_f[1] = sticker[0];
+  get_s[0] = 0;
+  get_s[1] = sticker[1];
 
-  for (let i = 2; i < s.length; i++) {
-    if (s[i] == s[i - 2]) {
-      checkside(1, i);
-    }
-    if (s[i] == s[i - 1]) {
-      checkside(0, i);
-    }
+  for(let i = 2; i < len - 1; i++){
+    get_f[i] = Math.max(get_f[i - 2] + sticker[i], get_f[i - 1]);
+    get_s[i] = Math.max(get_s[i - 2] + sticker[i], get_s[i - 1]);
   }
 
-  return answer;
+  let i = len - 1;
+  get_f[i] = Math.max(get_f[i - 1], get_f[i - 2]);
+  get_s[i] = Math.max(get_s[i - 2] + sticker[i], get_s[i - 1]);
+
+  return (Math.max(get_f[i], get_s[i]));
 }
+// 1 3 5 7
+// 2 2 6 8
 
-// https://programmers.co.kr/learn/courses/30/lessons/43238
+// https://programmers.co.kr/learn/courses/30/lessons/12987
 
-// console.log("after  : ", solution("abcdcba"));
-// console.log("answer : ", 7);
-// console.log("\n");
-
-// console.log("after  : ", solution("abacde"));
-// console.log("answer : ", 3);
-// console.log("\n");
-
-console.log("after  : ", solution("cdeaba"));
-console.log("answer : ", 6);
+console.log("after  : ", solution([14, 6, 5, 11, 3, 9, 2, 10]	));
+console.log("answer : ", 36);
 console.log("\n");
 
-// let k = i;
-//       let flag = 1;
-//       for (let j = i - 1; j >= 0; j--) {
-//         if (s[k++] != s[j]) {
-//           answer = answer > k - j - 2 ? answer : k - j - 2;
-//           flag = 0;
-//           break;
-//         }
-//       }
-//       if (flag) {
-//         answer = i * 2;
-//       }
+console.log("after  : ", solution([1, 3, 2, 5, 4]));
+console.log("answer : ", 8);
+console.log("\n");
+
+
