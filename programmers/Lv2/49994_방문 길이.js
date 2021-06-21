@@ -37,10 +37,46 @@ function solution(dirs) {
 
 // https://programmers.co.kr/learn/courses/30/lessons/49994
 
-console.log("after  : ", solution("ULURRDLLU"));
-console.log("answer : ", 7);
+function solution(dirs) {
+  var answer = 0;
+
+  let pos = [0, 0];
+  let road = [];
+
+  const move = (dir, pos, road) => {
+    let before = pos.join("");
+    if (dir === "U" && pos[1] !== 5) {
+      pos[1]++;
+    } else if (dir === "D" && pos[1] !== -5) {
+      pos[1]--;
+    } else if (dir === "R" && pos[0] !== 5) {
+      pos[0]++;
+    } else if (dir === "L" && pos[0] !== -5) {
+      pos[0]--;
+    }
+    let after = pos.join("");
+    if (before == after) return "";
+    if (
+      road.includes(before + "." + after) ||
+      road.includes(after + "." + bef + ore)
+    )
+      return "";
+    return before + "." + after;
+  };
+
+  for (let dir of dirs) {
+    let moves = move(dir, pos, road);
+    if (moves !== "") road.push(moves);
+  }
+
+  return road.length;
+} // 2021-06-21
+
+
+console.log("solution : ", solution("ULURRDLLU"));
+console.log("answer   : ", 7);
 console.log("\n");
 
-console.log("after  : ", solution("LULLLLLLU"));
-console.log("answer : ", 7);
+console.log("solution : ", solution("LULLLLLLU"));
+console.log("answer   : ", 7);
 console.log("\n");

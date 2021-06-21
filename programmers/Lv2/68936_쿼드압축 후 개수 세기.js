@@ -65,35 +65,42 @@ function solution(arr) {
     return answer;
   }
   
+  function solution(arr) {
+    var answer = [0, 0];
+  
+    const check_area = (arr, x, y, len) => {
+      if (len < 1){
+        return ;
+      }
+      let num = arr[x][y];
+      for(let i = x; i < x + len; i++){
+        for(let j = y; j < y + len; j++){
+          if (!(i == x && j == y) && arr[i][j] !== num){
+            len /= 2
+            check_area(arr, x, y, len);
+            check_area(arr, x + len, y, len);
+            check_area(arr, x, y + len, len);
+            check_area(arr, x + len, y + len, len);
+            return ;
+          }
+        }
+      }
+      answer[num]++;
+    }
+  
+    check_area(arr, 0, 0, arr.length);
+    return answer;
+  } // 2021-06-21
+  
   // https://programmers.co.kr/learn/courses/30/lessons/68936
   
-  let arr = [[1,1,0,0],[1,0,0,0],[1,0,0,1],[1,1,1,1]];
-  console.log("after  : ", solution(arr));
-  console.log("answer : ", [4, 9]);
-  console.log("\n"); 
+  console.log("solution : ", solution([[1,1,0,0],[1,0,0,0],[1,0,0,1],[1,1,1,1]]));
+  console.log("answer   : ", [4,9]);
+  console.log("\n");
   
-  // arr = [[1,1,1,1,1,1,1,1],[0,1,1,1,1,1,1,1],[0,0,0,0,1,1,1,1],[0,1,0,0,1,1,1,1],[0,0,0,0,0,0,1,1],[0,0,0,0,0,0,0,1],[0,0,0,0,1,0,0,1],[0,0,0,0,1,1,1,1]];
-  // console.log("after  : ", solution(arr));
-  // console.log("answer : ", [10, 15]);
-  // console.log("\n"); 
-  
-  // arr = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
-  // console.log("after  : ", solution(arr));
-  // console.log("answer : ", [1, 0]);
-  // console.log("\n"); 
-  
-  // arr = [[1,0,1,0,1,0,1,0],
-  // [0,1,0,1,0,1,0,1],
-  // [1,0,1,0,1,0,1,0],
-  // [0,1,0,1,0,1,0,1],
-  // [1,0,1,0,1,0,1,0],
-  // [0,1,0,1,0,1,0,1],
-  // [1,0,1,0,1,0,1,0],
-  // [0,1,0,1,0,1,0,1]
-  // ];
-  // console.log("after  : ", solution(arr));
-  // console.log("answer : ", [10, 15]);
-  // console.log("\n"); 
+  console.log("solution : ", solution([[1,1,1,1,1,1,1,1],[0,1,1,1,1,1,1,1],[0,0,0,0,1,1,1,1],[0,1,0,0,1,1,1,1],[0,0,0,0,0,0,1,1],[0,0,0,0,0,0,0,1],[0,0,0,0,1,0,0,1],[0,0,0,0,1,1,1,1]]));
+  console.log("answer   : ", [10,15]);
+  console.log("\n");
   
   
   

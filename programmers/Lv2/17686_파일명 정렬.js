@@ -46,3 +46,29 @@ function solution(files) {
 //   solution(["img000121.png", "img000101.png", "img000021.png", "img000011.png", "IMG000011.GIF", "img000021.JPG"])
 //   console.log("answer : ", ["img000011.png", "IMG000011.GIF", "img000021.png", "img000021.JPG", "img000101.png", "img000121.png"])
 //   console.log("\n");
+
+function solution(files) {
+  var answer = [];
+  let parsedAry = [];
+  for (let name of files) {
+    let div = {
+      head: name.substr(0, name.match(/[0-9]/).index),
+      number: name.match(/[0-9]+/)[0],
+      full: name
+    };
+    parsedAry.push(div);
+  }
+
+  parsedAry.sort((a, b) => {
+    if (a.head.toUpperCase() == b.head.toUpperCase()) {
+      if (parseInt(a.number) != parseInt(b.number)) return a.number - b.number;
+    } else return a.head.toUpperCase() > b.head.toUpperCase() ? 1 : -1
+    
+  });
+
+  answer = parsedAry.map((data) => {
+    return data.full
+  });
+
+  return answer;
+} // 2021-06-17

@@ -1,44 +1,22 @@
-function solution(n, s) {
-  var answer = [];
+function solution(skill, skill_trees) {
+  skill_trees = skill_trees.filter((order) => {
+    let ary = order.split("");
+    ary = ary.filter((val) => skill.includes(val));
 
-  let base = Math.floor(s / n);
-  let remian = s % n;
+    for(let i = 0; i < ary.length; i++){
+      if (ary[i] != skill[i]) return 0;
+    }
+    return 1;
+  })
+  return skill_trees.length;
+} // 2021-06-21
 
-  if (base == 0)
-    return [-1];
+// https://programmers.co.kr/learn/courses/30/lessons/68936
 
-  for(let i = 0; i < n - remian; i++)
-    answer.push(base);
-  for(let i = 0; i < remian; i++)
-    answer.push(base + 1);
-
-  return answer;
-}
-
-// https://programmers.co.kr/learn/courses/30/lessons/12938
-
-console.log("after  : ", solution(2, 9));
-console.log("answer : ", [4, 5]);
-console.log("\n");
-
-console.log("after  : ", solution(2, 1));
-console.log("answer : ", [-1]);
-console.log("\n");
-
-console.log("after  : ", solution(2, 8));
-console.log("answer : ", [4, 4]);
+console.log("solution : ", solution("CBD", ["BACDE", "CBADF", "AECB", "BDA"]));
+console.log("answer   : ", 2);
 console.log("\n");
 
 
 // const fs = require('fs');
 // const input = fs.readFileSync('/dev/stdin').toString().split(' ');
-
-
-// 1 1 1 6  6
-// 1 1 2 5  10
-// 1 1 3 4  12
-
-// 1 2 2 4  20
-// 1 2 3 3  24
-
-// 2 2 2 3  24
