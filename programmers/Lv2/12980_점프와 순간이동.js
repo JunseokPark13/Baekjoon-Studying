@@ -14,16 +14,31 @@ function solution(n){
     return ans;
   }
   
-  // https://programmers.co.kr/learn/courses/30/lessons/12980
+  function solution(N) {
+    let answer = 0;
   
-  console.log("after  : ", solution(5));
-  console.log("answer : ", 2);
-  console.log("\n"); 
+    while (N){
+      if (N % 2 === 1){
+        answer++;
+        N--;
+      } else{
+        N /= 2;
+      }
+    }
   
-  console.log("after  : ", solution(6));
-  console.log("answer : ", 2);
-  console.log("\n"); 
+    return answer;
+  } // 2021-06-21
   
-  console.log("after  : ", solution(5000));
-  console.log("answer : ", 5);
-  console.log("\n"); 
+  // https://programmers.co.kr/learn/courses/30/lessons/68936
+  
+  console.log("solution : ", solution(5));
+  console.log("answer   : ", 2);
+  console.log("\n");
+  
+  console.log("solution : ", solution(6));
+  console.log("answer   : ", 2);
+  console.log("\n");
+  
+  console.log("solution : ", solution(5000));
+  console.log("answer   : ", 5);
+  console.log("\n");
