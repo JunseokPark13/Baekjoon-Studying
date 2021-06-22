@@ -13,41 +13,33 @@ function solution(s) {
     return answer;
 }
 
-// function solution(s) {
-  
-//     let str = s;
-//     let cnt = 0;
-//     let zerocnt = 0;
-//     while (str != "1")
-//     {
-//       let nums = "";
-//       let len = 0;
-//       for(let i = 0; i <str.length; i++){
-//         if (str[i] == "1"){
-//           nums += "1";
-//         } else{
-//           zerocnt++;
-//         }
-//       }
-//       len = nums.length;
-//       str = len.toString(2);
-//       cnt++;
-//     }
-  
-//     return [cnt, zerocnt];
-//   }
+function solution(s) {
+  let answer = [0, 0];
+
+  while (s != '1'){
+    let len = s.length;
+    s = s.replace(/[0]/g, '');
+    len -= s.length;
+    s = s.length.toString(2);
+
+    answer[1] += len;
+    answer[0]++;
+  }
+
+  return answer;
+} // 2021-06-22
 
 // https://programmers.co.kr/learn/courses/30/lessons/70129
-  
-  console.log("after  : ", solution("110010101001"));
-  console.log("answer : ", [3,8]);
-  console.log("\n"); 
-  
-  console.log("after  : ", solution("01110"));
-  console.log("answer : ", [3,3]);
-  console.log("\n"); 
-  
-  console.log("after  : ", solution("1111111"));
-  console.log("answer : ", [4,1]);
-  console.log("\n"); 
+
+console.log("solution : ", solution("110010101001"));
+console.log("answer   : ", [3,8]);
+console.log("\n");
+
+console.log("solution : ", solution("01110"));
+console.log("answer   : ", [3,3]);
+console.log("\n");
+
+console.log("solution : ", solution("1111111"));
+console.log("answer   : ", [4,1]);
+console.log("\n");
   

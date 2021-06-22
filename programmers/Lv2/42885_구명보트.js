@@ -39,4 +39,30 @@ function solution(people, limit) {
     return answer;
 }
 
-// https://programmers.co.kr/learn/courses/30/lessons/42885
+function solution(people, limit) {
+    let answer = 0;
+  
+    people.sort((a, b) => b - a);
+  
+    let left = 0;
+    let right = people.length - 1;
+    while (left <= right){
+      if (people[left++] + people[right] <= limit){
+        right--;
+      } 
+      answer++;
+    }
+    
+    return answer;
+  } // 2021-06-22
+  
+  // https://programmers.co.kr/learn/courses/30/lessons/42885
+  
+  
+  console.log("after  : ", solution([70, 50, 80, 50], 100));
+  console.log("answer : ", 3);
+  console.log("\n");
+  
+  console.log("after  : ", solution([70, 80, 50], 100));
+  console.log("answer : ", 3);
+  console.log("\n");

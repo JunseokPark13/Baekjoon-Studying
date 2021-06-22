@@ -26,10 +26,37 @@ function solution(cacheSize, cities) {
     return answer;
   }
   
+  function solution(cacheSize, cities) {
+    let answer = 0;
+  
+    cities = cities.map((city) => city.toUpperCase());
+    let cache = [];
+  
+    if (cacheSize === 0) {
+      return cities.length * 5;
+    }
+  
+    for(let i of cities){
+      i = i.toUpperCase();
+      if (!cache.includes(i)){
+        if (cache.length == cacheSize){
+          cache.shift();
+        } 
+        answer += 5;
+      } else{
+        let pos = cache.indexOf(i);
+        cache.splice(pos, 1);
+        answer += 1;
+      }
+      cache.push(i);
+    }
+    return answer;
+  } // 2021-06-22
+  
   // https://programmers.co.kr/learn/courses/30/lessons/17680
   
   var cities;
-  
+    
   cities = ["Jeju", "Pangyo", "Seoul", "NewYork", "LA", "Jeju", "Pangyo", "Seoul", "NewYork", "LA"];
   
   console.log("after  : ", solution(3, cities));
@@ -61,13 +88,17 @@ function solution(cacheSize, cities) {
   console.log("answer : ", 25);
   console.log("\n");
   
+  cities = ["Jeju", "Jeju", "Seoul", "NewYork", "LA"];
+  console.log("after  : ", solution(3, cities));
+  console.log("answer : ", 21);
+  console.log("\n");
+  
   cities = ["SEOUL", "SEOUL", "SEOUL"];
   console.log("after  : ", solution(5, cities));
   console.log("answer : ", 7);
   console.log("\n");
   
   cities = ["A", "B", "C", "A", "C", "D"];
-  // 5 5 5 1 1 5
   console.log("after  : ", solution(3, cities));
   console.log("answer : ", 22);
   console.log("\n");
@@ -76,6 +107,3 @@ function solution(cacheSize, cities) {
   console.log("after  : ", solution(8, cities));
   console.log("answer : ", 14);
   console.log("\n");
-  
-  
-  
