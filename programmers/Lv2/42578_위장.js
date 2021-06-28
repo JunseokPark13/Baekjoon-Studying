@@ -39,4 +39,31 @@ function solution(clothes) {
     return answer-1;
 }
 
-// https://programmers.co.kr/learn/courses/30/lessons/42578
+function solution(clothes) {
+    let answer = 1;
+    let closet = {}
+  
+    for(let i of clothes){
+      if (closet[i[1]] == undefined){
+        closet[i[1]] = 1
+      } else{
+        closet[i[1]]++;
+      }
+    }
+  
+    for(let i in closet){
+      answer *= (closet[i] + 1)
+    }
+  
+    return (answer - 1);
+  } // 2021-06-27
+  
+  // https://programmers.co.kr/learn/courses/30/lessons/42578
+  
+  console.log("after  : ", solution([["yellowhat", "headgear"], ["bluesunglasses", "eyewear"], ["green_turban", "headgear"]]));
+  console.log("answer : ", 5);
+  console.log("\n");
+  
+  console.log("after  : ", solution([["crowmask", "face"], ["bluesunglasses", "face"], ["smoky_makeup", "face"]]));
+  console.log("answer : ", 3);
+  console.log("\n");
