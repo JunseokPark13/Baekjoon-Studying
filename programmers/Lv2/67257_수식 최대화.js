@@ -53,12 +53,79 @@ function solution(expression) {
     return answer;
   }
 
-// https://programmers.co.kr/learn/courses/30/lessons/67257
 
-console.log("after  : ", solution("100-200*300-500+20"));
-console.log("answer : ", 60420);
-console.log("\n");
+  
 
-console.log("after  : ", solution("50*6-3*2"));
-console.log("answer : ", 300);
-console.log("\n");
+  function solution(expression) {
+    let answer = 0;
+    
+    let order = []
+    let op_set = new Set();
+    let op = []
+    let nums = expression.split(/[\+\-\*]/);
+  
+    const parseExpression = (expression) => {
+      for(let i of expression){
+        if (i == '-' || i == '+' || i == '*') {
+          op.push(i);
+          op_set.add(i);
+        }
+      }
+      op_set = [...op_set]
+    }
+  
+    const makeOpComb = (op, comb, n) => {
+      if (n == op_set.length){
+        order.push(comb);
+        return ;
+      }
+      for(let i = 0; i < op.length; i++){
+        let op_tmp = op.slice();
+        let comb_tmp = comb.slice();
+        comb_tmp.push(op[i]);
+        op_tmp.splice(i, 1);
+        makeOpComb(op_tmp, comb_tmp, n + 1)
+      }
+    }
+  
+    const calculateAllCase = (order, nums, op) => {
+      for(let i = 0 ; i < order.length; i++){
+        let check = 0;
+        let cal = 0;
+        let nums_tmp = nums.slice();
+        let op_tmp = op.slice();
+        while (check < 3){
+          for(let j = 0; j < op_tmp.length; j++){
+            if (op_tmp[j] == order[i][check]){
+              cal = eval(nums_tmp[j] + op_tmp[j] + nums_tmp[j + 1])
+              nums_tmp[j] = cal;
+              nums_tmp.splice(j + 1, 1);
+              op_tmp.splice(j, 1);
+              j--;
+            }
+          }
+          check++;
+        }
+        cal = cal > 0 ? cal : cal * (-1)
+        if (cal > answer) answer = cal;
+      }
+    }
+  
+    parseExpression(expression);
+    makeOpComb(op_set, [], 0)
+    calculateAllCase(order, nums, op)
+  
+    return answer;
+  } // 2021-06-30
+  
+  // https://programmers.co.kr/learn/courses/30/lessons/67257
+  
+  
+  
+  console.log("after  : ", solution("100-200*300-500+20"));
+  console.log("answer : ", 60420);
+  console.log("\n");
+  
+  console.log("after  : ", solution("50*6-3*2"));
+  console.log("answer : ", 300);
+  console.log("\n");

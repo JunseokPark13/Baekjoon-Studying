@@ -12,8 +12,19 @@ function solution(n,a,b){
     }
     return answer;
   }
-  // https://programmers.co.kr/learn/courses/30/lessons/12985
+
   
-  console.log("after  : ", solution(8, 4, 7));
-  console.log("answer : ", 3);
-  console.log("\n");
+  function solution(N, A, B) {
+    let answer = 0;
+  
+    while (1){
+      A = A % 2 == 1 ? Math.floor(A / 2) + 1 : A / 2
+      B = B % 2 == 1 ? Math.floor(B / 2) + 1 : B / 2
+      answer++
+      if (A == B) break;
+    }
+  // 
+    return answer;
+  } // 2021-06-30
+  
+  // https://programmers.co.kr/learn/courses/30/lessons/12985

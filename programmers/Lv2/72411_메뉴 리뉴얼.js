@@ -41,19 +41,44 @@ function solution(orders, course) {
     return answer;
   }
   
+
+
+  function solution(orders, course) {
+    let answer = []
+  
+    course.sort((a, b) => a - b);
+    let max = course[course.length - 1];
+    let allCourse = {}
+    let maxCourse = {}
+  
+    for(let i of course) maxCourse[i] = 0;
+    
+    const makeComb = (set, order, comb, n) => {
+      if (course.includes(comb.length)) set.add(comb);
+      if (n == order.length || comb.length == max) return
+      let comb_t = comb + order[n]
+      makeComb(set, order, comb, n + 1)
+      makeComb(set, order, comb_t, n + 1)
+    }
+  
+    for(let order of orders){
+      let set = new Set();
+      let arr = order.split('').sort()
+      makeComb(set, arr, '', 0);
+      for(let i of set){
+        if (allCourse[i] == undefined) allCourse[i] = 1;
+        else allCourse[i]++;
+      }
+    }
+  
+    for(let i in allCourse){
+      if (maxCourse[i.length] < allCourse[i] && allCourse[i] > 1) maxCourse[i.length] = allCourse[i]
+    }
+    for(let i in allCourse){
+      if (allCourse[i] == maxCourse[i.length]) answer.push(i);
+    }
+  
+    return answer.sort();
+  } // 2021-06-30
+  
   // https://programmers.co.kr/learn/courses/30/lessons/72411
-  
-  // var t1 = ["ABCFG", "AC", "CDE", "ACDE", "BCFG", "ACDEH"];
-  // var c1 = [2,3,4];
-  
-  // var t2 = ["ABCDE", "AB", "CD", "ADE", "XYZ", "XYZ", "ACD"];
-  // var c2 = [2,3,5];
-  
-  // var t3 = ["XYZ", "XWY", "WXA"];
-  // var c3 = [2,3,4];
-  
-  // solution(t1, c1);
-  // console.log("\n");
-  // solution(t2, c2);
-  // console.log("\n");
-  // solution(t3, c3);

@@ -157,3 +157,71 @@ function solution(info, query) {
   
 //     return answer;
 //   }
+
+// function solution(info, query) {
+//   let answer = [];
+
+//   let allComb = {}
+
+//   const getComb = (comb, n) => {
+//     if (n == 4){
+//       let score = comb.pop();
+//       let prop = comb.join('.')
+//       if (allComb[prop] == undefined) allComb[prop] = [score];
+//       else allComb[prop].push(score);
+//       return ;
+//     } else{
+//     let tmp = comb.slice();
+//     let tmp2 = comb.slice();
+//     tmp[n] = '-' 
+//     getComb(tmp, n + 1);
+//     getComb(tmp2, n + 1);
+//     }
+//   }
+
+//   for(let i of info){
+//     let data = i.split(' ');
+//     let score = parseInt(data.pop());
+//     data.push(score);
+//     getComb(data, 0);
+//   }
+
+//   //console.log(allComb);
+
+//   for(let i of query){
+//     let pos = i.match(/[0-9]/).index;
+//     let score = parseInt(i.substring(pos));
+//     let data = i.substring(0, pos - 1).replace(/ and /g, '.');
+//     //console.log(data, score, allComb[data]);
+//     let cnt = 0;
+//     for(let j of allComb[data]){
+//       if (j >= score) cnt++;
+//     }
+//     answer.push(cnt);
+//   }
+
+//   return answer;
+// } // 2021-06-30
+
+// // https://programmers.co.kr/learn/courses/30/lessons/72412
+
+// const info = [
+//   "java backend junior pizza 150",
+//   "python frontend senior chicken 210",
+//   "python frontend senior chicken 150",
+//   "cpp backend senior pizza 260",
+//   "java backend junior chicken 80",
+//   "python backend senior chicken 50",
+// ];
+// const query = [
+//   "java and backend and junior and pizza 100",
+//   "python and frontend and senior and chicken 200",
+//   "cpp and - and senior and pizza 250",
+//   "- and backend and senior and - 150",
+//   "- and - and - and chicken 100",
+//   "- and - and - and - 150",
+// ];
+
+// console.log("after  : ", solution(info, query));
+// console.log("answer : ", [1, 1, 1, 1, 2, 4]);
+// console.log("\n");
