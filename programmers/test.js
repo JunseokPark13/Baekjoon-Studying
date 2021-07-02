@@ -1,59 +1,49 @@
-function solution(orders, course) {
-  let answer = []
+function solution(progresses, speeds) {
+  let answer = [];
 
-  course.sort((a, b) => a - b);
-  let max = course[course.length - 1];
-  let allCourse = {}
-  let maxCourse = {}
+  let i = 0;
+  let lastest = 0
+  let sum = 0;
 
-  for(let i of course) maxCourse[i] = 0;
-  
-  const makeComb = (set, order, comb, n) => {
-    if (course.includes(comb.length)){
-      set.add(comb);
+  while (sum < progresses.length){
+    let cnt = 0;
+    for(let i = 0; i < progresses.length; i++){
+      if (progresses[i] > 0) progresses[i] += speeds[i]
     }
-    if (n == order.length || comb.length == max) return
-    
-    let comb_t = comb + order[n]
-    makeComb(set, order, comb, n + 1)
-    makeComb(set, order, comb_t, n + 1)
-  }
-
-  for(let order of orders){
-    let set = new Set();
-    let arr = order.split('').sort()
-    makeComb(set, arr, '', 0);
-    for(let i of set){
-      if (allCourse[i] == undefined) allCourse[i] = 1;
-      else allCourse[i]++;
+    for(let i = lastest; i < progresses.length; i++){
+      if (!cnt && progresses[lastest] >= 100){
+        progresses[i] = 0;
+        lastest++
+        cnt++;
+      } else if (cnt != 0){
+        if (progresses[i] >= 100){
+          progresses[i] = 0;
+          lastest++
+          cnt++;
+        } else break
+      }
+    }
+    if (cnt){
+      answer.push(cnt)
+      sum += cnt
     }
   }
 
-  for(let i in allCourse){
-    if (maxCourse[i.length] < allCourse[i] && allCourse[i] > 1) maxCourse[i.length] = allCourse[i]
-  }
-  for(let i in allCourse){
-    if (allCourse[i] == maxCourse[i.length]) answer.push(i);
-  }
+  return answer
+} // 2021-07-01
 
-  return answer.sort();
-} // 2021-06-30
-
-// https://programmers.co.kr/learn/courses/30/lessons/72411
+// https://programmers.co.kr/learn/courses/30/lessons/42586
 
 
-
-console.log("after  : ", solution(["ABCFG", "AC", "CDE", "ACDE", "BCFG", "ACDEH"], [2,3,4]));
-console.log("answer : ", ["AC", "ACDE", "BCFG", "CDE"]);
+console.log("after  : ", solution([93, 30, 55], [1, 30, 5]));
+console.log("answer : ", [2, 1]);
 console.log("\n");
 
-console.log("after  : ", solution(["ABCDE", "AB", "CD", "ADE", "XYZ", "XYZ", "ACD"], [2,3,5]));
-console.log("answer : ", ["ACD", "AD", "ADE", "CD", "XYZ"]);
+console.log("after  : ", solution([95, 90, 99, 99, 80, 99], [1, 1, 1, 1, 1, 1]));
+console.log("answer : ", [1, 3, 2]);
 console.log("\n");
 
-console.log("after  : ", solution(["XYZ", "XWY", "WXA"], [2,3,4]));
-console.log("answer : ", ["WX", "XY"]);
-console.log("\n");
+
 
 
 

@@ -57,4 +57,75 @@ function solution(p) {
     return answer;
 }
 
-// https://programmers.co.kr/learn/courses/30/lessons/60058
+
+
+function solution(p) {
+    let answer = [];
+  
+    const splitBracket = (str) => {
+      let left = 0
+      for(let i = 0; i < str.length; i++){
+        if (str[i] == '(') left++;
+        else left--
+        if (i != 0 && left == 0) {
+          return [str.substring(0, i + 1), str.substring(i + 1, str.length)]
+        }
+      }
+      return [str, '']
+    }
+  
+    const checkCorrect = (str) => {
+      let stack = [str[0]];
+      if (str[0] == ')') return false
+      for(let i = 1; i < str.length; i++){
+        if (str[i] == '(') stack.push(str[i])
+        else stack.pop()
+      }
+      if (stack.length == 0) return true
+      else return false
+    }
+  
+    const reverseBracket = (str) => {
+      let res = ''
+      for(let i = 0; i < str.length; i++){
+        if (str[i] == '(') res += ')'
+        else res += '('
+      }
+      return res
+    }
+  
+    if (checkCorrect(p)) return p
+  
+    const getV = (str) => {
+      if (str.length == 0) return ''
+      let splited = splitBracket(str);
+      let u = splited[0]
+      let v = splited[1]
+      if (checkCorrect(u)){
+        return u + getV(v);
+      } else {
+        let res = '(' + getV(v) +')' + reverseBracket(u.substring(1, u.length - 1))
+        return res
+      }
+    }
+  
+    answer = getV(p)
+  
+    return answer
+  } // 2021-07-01
+  
+  // https://programmers.co.kr/learn/courses/30/lessons/60058
+  
+  
+  console.log("after  : ", solution("(()())()"));
+  console.log("answer : ", "(()())()");
+  console.log("\n");
+  
+  console.log("after  : ", solution(")("));
+  console.log("answer : ", "()");
+  console.log("\n");
+  
+  
+  console.log("after  : ", solution("()))((()"));
+  console.log("answer : ", "()(())()");
+  console.log("\n");
