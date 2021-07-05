@@ -21,4 +21,26 @@ function solution(numbers, target) {
     return answer;
 }
 
-// https://programmers.co.kr/learn/courses/30/lessons/43165
+function solution(numbers, target) {
+    let answer = 0
+  
+    const makeComb = (numbers, sum, index) => {
+      if (index == numbers.length){
+        if (sum == target) answer++
+        return
+      }
+      makeComb(numbers, sum + numbers[index], index + 1)
+      makeComb(numbers, sum - numbers[index], index + 1)
+    }
+  
+    makeComb(numbers, 0, 0)
+  
+   return answer
+  } // 2021-07-02
+  
+  // https://programmers.co.kr/learn/courses/30/lessons/43165
+  
+  
+  console.log("after  : ", solution([1, 1, 1, 1, 1], 3));
+  console.log("answer : ", 5);
+  console.log("\n");

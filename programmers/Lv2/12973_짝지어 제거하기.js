@@ -16,15 +16,31 @@ function solution(s){
     return answer;
   }
   
-  // https://programmers.co.kr/learn/courses/30/lessons/12973
-  
-  console.log("after  : ", solution("baabaa"));
-  console.log("answer : ", 1);
-  console.log("\n");
-  
-  console.log("after  : ", solution("cdcd"));
-  console.log("answer : ", 0);
-  console.log("\n");
+  function solution(s) {
+    let i = 0;
+   
+    let stack = [s[0]]
+   
+    for(let i = 1; i < s.length ; i++){
+     if (stack[stack.length - 1] == s[i]) stack.pop()
+     else stack.push(s[i])
+    }
+   
+    if (!stack.length) return 1
+    else return 0
+   
+   } // 2021-07-02
+   
+   // https://programmers.co.kr/learn/courses/30/lessons/12973
+   
+   
+   console.log("after  : ", solution('baabaa'));
+   console.log("answer : ", 1);
+   console.log("\n");
+   
+   console.log("after  : ", solution('cdcd'));
+   console.log("answer : ", 0);
+   console.log("\n");
   
   
   
