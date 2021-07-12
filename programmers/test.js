@@ -1,51 +1,22 @@
-function solution(n, works) {
-  var answer = 0;
+function solution(places) {
+  let answer = [];
 
-  let worksSum = works.reduce((acc, val) => acc + val, 0)
-  works.sort((a, b) => b - a)
-
-  if (worksSum <= n) return 0
-
-  let pos = 0
-  while (n){
-    if (works[pos] < works[pos + 1]){
-      pos++
-    } else if (pos && works[pos - 1] === works[pos]){
-      pos = 0
-    } else{
-      works[pos]--
-      n--
-    }
-  }
-
-  answer = works.reduce((acc, val) => acc + (val * val), 0)
-  
   return answer;
-} // 2021-07-07
+} // 2021-07-12
 
-// https://programmers.co.kr/learn/courses/30/lessons/12927
+// https://programmers.co.kr/learn/courses/30/lessons/81302
 
-console.log("after  : ", solution(4, [4, 3, 3]));
-console.log("answer : ", 12);
+let places = [
+  ["POOOP", "OXXOX", "OPXPX", "OOXOX", "POXXP"],
+  ["POOPX", "OXPXP", "PXXXO", "OXXXO", "OOOPP"],
+  ["PXOPX", "OXOXP", "OXPOX", "OXXOP", "PXPOX"],
+  ["OOOXX", "XOOOX", "OOOXX", "OXOOX", "OOOOO"],
+  ["PXPXP", "XPXPX", "PXPXP", "XPXPX", "PXPXP"],
+];
+
+console.log("after  : ", solution(places));
+console.log("answer : ", [1, 0, 1, 1, 1]);
 console.log("\n");
-
-console.log("after  : ", solution(1, [2, 1, 2]));
-console.log("answer : ", 6);
-console.log("\n");
-
-console.log("after  : ", solution(3, [1, 1]));
-console.log("answer : ", 0);
-console.log("\n");
-
-console.log("after  : ", solution(5, [5, 3, 3, 2, 1]))
-console.log("answer : ", 17)
-console.log("\n");
-
-console.log("after  : ", solution(99, [2, 15, 22, 55, 55]))
-console.log("answer : ", 580)
-console.log("\n");
-
-
 
 
 // const fs = require('fs');
