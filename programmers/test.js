@@ -1,61 +1,40 @@
-function solution(n) {
-  let left = 1
-  let right = 2
-  let sum
+function solution(sticker) {
+  let answer = 0;
+  const len = sticker.length + 2
 
-  if (n === 1) return 1
-  else if (n === 2) return 2
+  let ary = new Array(len).fill(0)
+  let ary2 = new Array(len).fill(0)
 
-  for(let i = 3; i <= n; i++){
-    sum = (left + right) % 1234567
-    left = right
-    right = sum 
+  if (sticker.length === 1) return sticker[0]
+
+  for(let i = 2; i < len - 1; i++){
+    ary[i] = Math.max(ary[i - 1], ary[i - 2] + sticker[i - 2])
   }
 
-  return sum;
-} // 2021-07-12
+  for(let i = 3; i < len; i++){
+    ary2[i] = Math.max(ary2[i - 1], ary2[i - 2] + sticker[i - 2])
+  }
 
-// https://programmers.co.kr/learn/courses/30/lessons/12914
+  console.log(ary)
+  console.log(ary2)
 
-console.log("after  : ", solution(1));
-console.log("answer : ", 1);
+  answer = Math.max(ary[len - 2], ary2[len - 1])
+
+  return answer;
+} // 2021-07-14
+
+// https://programmers.co.kr/learn/courses/30/lessons/12971
+
+console.log("after  : ", solution([14, 6, 5, 11, 3, 9, 2, 10]	));
+console.log("answer : ", 36);
 console.log("\n");
 
-console.log("after  : ", solution(2));
-console.log("answer : ", 2);
-console.log("\n");
-
-console.log("after  : ", solution(3));
-console.log("answer : ", 3);
-console.log("\n");
-
-console.log("after  : ", solution(4));
-console.log("answer : ", 5);
-console.log("\n");
-
-console.log("after  : ", solution(5));
+console.log("after  : ", solution([1, 3, 2, 5, 4]));
 console.log("answer : ", 8);
 console.log("\n");
 
-console.log("after  : ", solution(6));
-console.log("answer : ", 13);
-console.log("\n");
 
-console.log("after  : ", solution(7));
-console.log("answer : ", 21);
-console.log("\n");
 
-console.log("after  : ", solution(20));
-console.log("answer : ", 10946);
-console.log("\n");
-
-console.log("after  : ", solution(49));
-console.log("answer : ", 1093027);
-console.log("\n");
-
-console.log("after  : ", solution(99));
-console.log("answer : ", 963606);
-console.log("\n");
 
 
 
