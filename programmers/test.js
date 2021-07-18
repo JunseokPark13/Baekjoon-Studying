@@ -1,78 +1,89 @@
-function solution(a) {
-  let max = 0;
+function solution(board) {
+  let end = [board.length, board.length].join("");
 
-  if (a.length <= 1) return 0
+  const visit = new Set(["1112"]);
 
-  let numCheck = {}
-  let sortCheck = []
+  let route = [[[1, 1], [1, 2], 0]];
 
-  for(let i of a){
-    if (numCheck[i] === undefined) numCheck[i] = 1;
-    else numCheck[i]++
+  const N = board.length;
+  const new_board = new Array(N + 2)
+    .fill()
+    .map((_) => new Array(N + 2).fill(1));
+  for (let i = 0; i < N; i++) {
+    for (let j = 0; j < N; j++) {
+      new_board[i + 1][j + 1] = board[i][j];
+    }
   }
 
-  for(let i in numCheck) sortCheck.push([parseInt(i), numCheck[i]])
-  
-  sortCheck.sort((a, b) => b[1] - a[1])
-  
+  const findRoute = (left, right, new_route, board) => {
+    const dirs = [
+      [-1, 0],
+      [1, 0],
+      [0, -1],
+      [0, 1],
+    ];
+    for (let dir of dirs) {
+      let next_left = [left[0] + dir[0], left[1] + dir[1]];
+      let next_right = [right[0] + dir[0], right[1] + dir[1]];
+      if (
+        board[next_left[0]][next_left[1]] === 0 &&
+        board[next_right[0]][next_right[1]] === 0
+      )
+        new_route.push([next_left, next_right]);
+    }
 
-  for(let k = 0; k < sortCheck.length; k++){
-    if (max > sortCheck[k][1] * 2) continue
-    let cnt = 0;
-    let dup = -1
-    for(let i = 0; i < a.length; i++){
-      if (a[i] === sortCheck[k][0]){
-        if (i !== 0 && a[i] !== a[i - 1] && i - 1 !== dup) {
-          cnt += 2
-        } else if (i + 1 !== a.length && a[i] !== a[i + 1]){
-          dup = i + 1;
-          i++;
-          cnt += 2
-        } 
+    const dirs2 = [-1, 1];
+
+    if (left[0] === right[0]) {
+      for (let y of dirs2) {
+        if (
+          board[left[0] + y][left[1]] === 0 &&
+          board[right[0] + y][right[1]] === 0
+        ) {
+          new_route.push([left, [left[0] + y, left[1]]]);
+          new_route.push([[right[0] + y, right[1]], right]);
+        }
+      }
+    } else {
+      for (let x of dirs2) {
+        if (
+          board[left[0]][left[1] + x] === 0 &&
+          board[right[0]][right[1] + x] === 0
+        ) {
+          new_route.push([[left[0], left[1] + x], left]);
+          new_route.push([right, [right[0], right[1] + x]]);
+        }
       }
     }
-    if (max < cnt) max = cnt
+  };
+
+  while (route.length) {
+    const next = route.shift()
+    if (next[0].join("") === end || next[1].join("") === end) return next[2];
+    let new_route = [];
+    findRoute(next[0], next[1], new_route, new_board);
+    for (let pos of new_route) {
+      const position = pos[0].join("") + pos[1].join("");
+      if (!visit.has(position)) {
+        route.push([pos[0], pos[1], next[2] + 1]);
+        visit.add(position);
+      }
+    }
   }
+} //2021-07-16
 
-  return max;
-} 2021-07-16
+// https://programmers.co.kr/learn/courses/30/lessons/60063
 
-// https://programmers.co.kr/learn/courses/30/lessons/70130
+let board = [
+  [0, 0, 0, 1, 1],
+  [0, 0, 0, 1, 0],
+  [0, 1, 0, 1, 1],
+  [1, 1, 0, 0, 1],
+  [0, 0, 0, 0, 0],
+];
 
-console.log("after  : ", solution([0]));
-console.log("answer : ", 0);
-console.log("\n");
-
-console.log("after  : ", solution([1, 1]));
-console.log("answer : ", 0);
-console.log("\n");
-
-console.log("after  : ", solution([1, 2]));
-console.log("answer : ", 2);
-console.log("\n");
-
-console.log("after  : ", solution([5,2,3,3,5,3]));
-console.log("answer : ", 4);
-console.log("\n");
-
-console.log("after  : ", solution([0,3,3,0,7,2,0,2,2,0]));
-console.log("answer : ", 8);
-console.log("\n");
-
-console.log("after  : ", solution([0, 0, 3, 1, 2, 1, 3, 4, 0, 1, 4]));
-console.log("answer : ", 6);
-console.log("\n");
-
-console.log("after  : ", solution([0, 3, 1, 6, 0, 2, 0, 7, 1, 3, 4, 0, 5, 1, 1]));
-console.log("answer : ", 8);
-console.log("\n");
-
-console.log("after  : ", solution([0, 0, 0, 2, 3, 4, 3, 5, 3, 1]));
-console.log("answer : ", 6);
-console.log("\n");
-
-console.log("after  : ", solution([4, 0, 0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 0, 3]));
-console.log("answer : ", 6);
+console.log("after  : ", solution(board));
+console.log("answer : ", 7);
 console.log("\n");
 
 // const fs = require('fs');
